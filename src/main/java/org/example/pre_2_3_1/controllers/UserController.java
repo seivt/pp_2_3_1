@@ -2,19 +2,16 @@ package org.example.pre_2_3_1.controllers;
 
 import org.example.pre_2_3_1.model.User;
 import org.example.pre_2_3_1.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -38,20 +35,19 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable int id) {
-        userService.deleteUserFromId(id);
+        userService.deleteUserById(id);
         return "redirect:/users";
     }
 
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable int id, Model model) {
-        model.addAttribute("user", userService.getUserFromId(id));
+        model.addAttribute("user", userService.getUserById(id));
         return "user/edit";
     }
 
     @PatchMapping("/{id}")
-    public String updateUser(@PathVariable int id,
-                             @ModelAttribute("user") User user) {
-        userService.updateUser(user, id);
+    public String updateUser(@ModelAttribute("user") User user) {
+        userService.updateUser(user, user.getId());
         return "redirect:/users";
     }
 }

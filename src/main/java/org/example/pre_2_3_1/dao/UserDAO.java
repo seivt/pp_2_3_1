@@ -7,11 +7,11 @@ import java.util.List;
 public interface UserDAO {
     List<User> getUsers();
 
-    User getUserFromId(int id);
+    User getUserById(int id);
 
     void saveUser(User newUser);
 
-    void deleteUserFromId(int id);
+    void deleteUserById(int id);
 
     void updateUser(User updatableUser, int id);
 
